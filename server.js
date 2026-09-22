@@ -1,8 +1,3 @@
-// ==========================================
-// AI MENTOR - SERVER
-// Gemini API + Website Backend
-// ==========================================
-
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
@@ -11,60 +6,32 @@ import { fileURLToPath } from "url";
 import { GoogleGenAI } from "@google/genai";
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
-
-
-// ==========================================
-// FILE PATH SETUP
-// ==========================================
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
-// ==========================================
-// MIDDLEWARE
-// ==========================================
-
 app.use(cors());
-
 app.use(express.json());
-
-
-// ==========================================
-// FRONTEND FILES
-// ==========================================
-
 app.use(express.static(__dirname));
 
-
-// ==========================================
-// GEMINI API
-// ==========================================
+/* =========================
+   GEMINI API SETUP
+========================= */
 
 if (!process.env.GEMINI_API_KEY) {
-
-    console.error(
-        "GEMINI_API_KEY is missing."
-    );
-
+    console.error("GEMINI_API_KEY is missing.");
 } else {
-
-    console.log(
-        "Gemini API key detected."
-    );
-
+    console.log("Gemini API key detected.");
 }
 
 const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
-
-// ==========================================
-// AI MENTOR PERSONALITY
-// ==========================================
+/* =========================
+   AI MENTOR INSTRUCTION
+========================= */
 
 const mentorInstruction = `
 You are an AI Study Mentor.
@@ -72,7 +39,6 @@ You are an AI Study Mentor.
 You are speaking face-to-face with a student.
 
 Your personality:
-
 - Friendly
 - Patient
 - Intelligent
@@ -83,7 +49,6 @@ Your personality:
 The student may be preparing for UPSC and UPPCS.
 
 Your responsibilities:
-
 1. Explain difficult concepts step by step.
 2. Teach instead of simply giving answers.
 3. Ask useful follow-up questions.
@@ -96,25 +61,100 @@ Your responsibilities:
 10. Give examples when useful.
 
 Language:
-
-Use natural Hindi.
-
-Use English terms where they are commonly used
-in competitive-exam preparation.
-
-Do not use Urdu script.
-
-Keep normal answers concise and conversational.
-
-Talk like a real mentor sitting in front of the student.
-
-Never claim that you have done something if you have not.
+- Use natural Hindi.
+- Use English terms where commonly used in competitive-exam preparation.
+- Do not use Urdu script.
+- Keep answers conversational and easy to understand.
+- Talk like a real mentor sitting in front of the student.
+- Do not claim that you have done something if you have not.
 `;
 
+/* =========================
+   WAIT FUNCTION
+========================= */
 
-// ==========================================
-// GEMINI CHAT API
-// ==========================================
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/* =========================
+   GEMINI REQUEST
+========================= */
+
+async function askGemini(contents) {
+
+    const models = [
+        "gemini-3.8-flash",
+        "gemini-3.7-flash",
+        "gemini-3.6-flash"
+    ];
+
+    let lastError = null;
+
+    for (const model of models) {
+
+        console.log(`Trying Gemini model: ${model}`);
+
+        for (let attempt = 1; attempt <= 2; attempt++) {
+
+            try {
+
+                console.log(
+                    `Requesting ${model} - attempt ${attempt}`
+                );
+
+                const response = await ai.models.generateContent({
+                    model: model,
+                    contents: contents,
+                    config: {
+                        systemInstruction: mentorInstruction,
+                        temperature: 0.7,
+                        maxOutputTokens: 1200
+                    }
+                });
+
+                console.log(
+                    `Gemini response received from ${model}`
+                );
+
+                return response.text;
+
+            } catch (error) {
+
+                lastError = error;
+
+                console.error(
+                    `Gemini ${model} attempt ${attempt} failed:`,
+                    error.message || error
+                );
+
+                /*
+                  If Gemini is temporarily overloaded,
+                  wait and retry.
+                */
+
+                if (attempt < 2) {
+                    await wait(1500);
+                }
+            }
+        }
+
+        /*
+          If one model fails completely,
+          automatically try the next model.
+        */
+
+        console.log(
+            `Switching from ${model} to next Gemini model...`
+        );
+    }
+
+    throw lastError;
+}
+
+/* =========================
+   CHAT API
+========================= */
 
 app.post("/api/chat", async (req, res) => {
 
@@ -126,30 +166,19 @@ app.post("/api/chat", async (req, res) => {
             ? req.body.history
             : [];
 
-
-        // --------------------------------------
-        // Check message
-        // --------------------------------------
-
         if (!message || !message.trim()) {
 
             return res.status(400).json({
-
                 success: false,
-
                 error: "Message is required."
-
             });
-
         }
-
-
-        // --------------------------------------
-        // Conversation history
-        // --------------------------------------
 
         const contents = [];
 
+        /*
+          Add previous conversation
+        */
 
         for (const item of history) {
 
@@ -157,92 +186,44 @@ app.post("/api/chat", async (req, res) => {
                 continue;
             }
 
-
             contents.push({
-
-                role:
-                    item.role === "user"
-                        ? "user"
-                        : "model",
+                role: item.role === "user"
+                    ? "user"
+                    : "model",
 
                 parts: [
-
                     {
                         text: item.text
                     }
-
                 ]
-
             });
-
         }
 
-
-        // --------------------------------------
-        // Current user message
-        // --------------------------------------
+        /*
+          Add current student message
+        */
 
         contents.push({
-
             role: "user",
-
             parts: [
-
                 {
                     text: message.trim()
                 }
-
             ]
-
         });
 
+        /*
+          Ask Gemini
+        */
 
-        // --------------------------------------
-        // Gemini request
-        // --------------------------------------
+        const reply = await askGemini(contents);
 
-        const response =
-            await ai.models.generateContent({
-
-                model: "gemini-3.8-flash",
-
-                contents: contents,
-
-                config: {
-
-                    systemInstruction:
-                        mentorInstruction,
-
-                    temperature: 0.7,
-
-                    maxOutputTokens: 1200
-
-                }
-
-            });
-
-
-        // --------------------------------------
-        // Get AI response
-        // --------------------------------------
-
-        const reply =
-            response.text ||
-            "माफ कीजिए, मुझे अभी जवाब तैयार करने में समस्या हुई।";
-
-
-        // --------------------------------------
-        // Send response to website
-        // --------------------------------------
-
-        res.json({
-
+        return res.json({
             success: true,
-
-            reply: reply
-
+            reply:
+                reply ||
+                "माफ़ कीजिए, मुझे अभी जवाब तैयार करने में समस्या हुई।"
         });
-
 
     } catch (error) {
 
@@ -251,44 +232,30 @@ app.post("/api/chat", async (req, res) => {
             error
         );
 
-
-        res.status(500).json({
-
+        return res.status(503).json({
             success: false,
-
             error:
-                "AI Mentor server में समस्या हुई।"
-
+                "Gemini अभी व्यस्त है। कृपया कुछ सेकंड बाद फिर कोशिश करें।"
         });
-
     }
-
 });
 
-
-// ==========================================
-// HEALTH CHECK
-// ==========================================
+/* =========================
+   HEALTH CHECK
+========================= */
 
 app.get("/api/health", (req, res) => {
 
     res.json({
-
         success: true,
-
         status: "online",
-
-        message:
-            "AI Mentor server is running."
-
+        message: "AI Mentor server is running."
     });
-
 });
 
-
-// ==========================================
-// OPEN AI MENTOR WEBSITE
-// ==========================================
+/* =========================
+   HOME PAGE
+========================= */
 
 app.get("/", (req, res) => {
 
@@ -298,13 +265,11 @@ app.get("/", (req, res) => {
             "ai-mentor-avatar.html"
         )
     );
-
 });
 
-
-// ==========================================
-// START SERVER
-// ==========================================
+/* =========================
+   START SERVER
+========================= */
 
 app.listen(PORT, () => {
 
