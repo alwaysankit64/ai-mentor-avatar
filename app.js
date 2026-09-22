@@ -1,205 +1,114 @@
 // ==========================================
 // AI MENTOR - app.js
-// FAST STREAMING + VOICE + EXPRESSIONS
+// JSON API + VOICE + PHOTO AVATAR EXPRESSIONS
 // ==========================================
 
-
-// ------------------------------------------
-// ELEMENTS
-// ------------------------------------------
-
-const mentor =
-    document.getElementById("character");
-
-const mentorStatus =
-    document.getElementById("status");
-
-const chatBox =
-    document.getElementById("chat");
-
-const userInput =
-    document.getElementById("input");
-
-const sendButton =
-    document.getElementById("send");
-
-const micButton =
-    document.getElementById("mic");
-
-
-// ------------------------------------------
-// STATE
-// ------------------------------------------
+const mentor = document.getElementById("character");
+const mentorStatus = document.getElementById("status");
+const chatBox = document.getElementById("chat");
+const userInput = document.getElementById("input");
+const sendButton = document.getElementById("send");
+const micButton = document.getElementById("mic");
 
 let isThinking = false;
-
 let conversationHistory = [];
 
+// ==========================================
+// AVATAR EXPRESSIONS
+// ==========================================
 
-// ------------------------------------------
-// EXPRESSIONS
-// ------------------------------------------
-
-function mentorExpression(
-    expression,
-    message
-) {
-
+function mentorExpression(expression, message) {
     if (!mentor) return;
 
+    mentor.className = "character " + expression;
 
-    mentor.className =
-        "character " + expression;
-
-
-    if (
-        mentorStatus &&
-        message
-    ) {
-
-        mentorStatus.textContent =
-            message;
-
+    if (mentorStatus && message) {
+        mentorStatus.textContent = message;
     }
-
 }
-
 
 function mentorListening() {
-
     mentorExpression(
-
         "listening",
-
-        "👂 मैं आपकी बात ध्यान से सुन रहा हूँ..."
-
+        "👂 मैं आपकी बात ध्यान से सुन रही हूँ..."
     );
-
 }
-
 
 function mentorThinking() {
-
     mentorExpression(
-
         "thinking",
-
-        "🤔 सोच रहा हूँ..."
-
+        "🤔 सोच रही हूँ..."
     );
-
 }
-
 
 function mentorTalking() {
-
     mentorExpression(
-
         "talking",
-
-        "🗣️ Mentor बोल रहा है..."
-
+        "🗣️ Mentor बोल रही है..."
     );
-
 }
-
 
 function mentorHappy() {
-
     mentorExpression(
-
         "happy",
-
         "😊 बहुत बढ़िया!"
-
     );
-
 }
-
 
 function mentorNormal() {
-
     mentorExpression(
-
-        "",
-
+        "normal",
         "👋 मैं आपकी मदद के लिए तैयार हूँ।"
-
     );
-
 }
 
-
-// ------------------------------------------
+// ==========================================
 // USER MESSAGE
-// ------------------------------------------
+// ==========================================
 
 function addUserMessage(text) {
 
     if (!chatBox) return;
 
-
     const message =
         document.createElement("div");
 
+    message.className = "msg user";
 
-    message.className =
-        "msg user";
+    message.textContent = text;
 
-
-    message.textContent =
-        text;
-
-
-    chatBox.appendChild(
-        message
-    );
-
+    chatBox.appendChild(message);
 
     chatBox.scrollTop =
         chatBox.scrollHeight;
-
 }
 
+// ==========================================
+// MENTOR MESSAGE
+// ==========================================
 
-// ------------------------------------------
-// CREATE STREAMING MENTOR MESSAGE
-// ------------------------------------------
-
-function createMentorMessage() {
+function addMentorMessage(text) {
 
     if (!chatBox) return null;
 
-
     const message =
         document.createElement("div");
 
+    message.className = "msg mentor";
 
-    message.className =
-        "msg mentor";
+    message.textContent = text;
 
-
-    message.textContent =
-        "";
-
-
-    chatBox.appendChild(
-        message
-    );
-
+    chatBox.appendChild(message);
 
     chatBox.scrollTop =
         chatBox.scrollHeight;
 
-
     return message;
-
 }
 
-
-// ------------------------------------------
+// ==========================================
 // TEXT TO SPEECH
-// ------------------------------------------
+// ==========================================
 
 function mentorSpeak(text) {
 
@@ -211,341 +120,160 @@ function mentorSpeak(text) {
         mentorNormal();
 
         return;
-
     }
-
 
     speechSynthesis.cancel();
 
-
     const voice =
-        new SpeechSynthesisUtterance(
-            text
-        );
+        new SpeechSynthesisUtterance(text);
 
+    voice.lang = "hi-IN";
 
-    voice.lang =
-        "hi-IN";
+    voice.rate = 0.98;
 
+    voice.pitch = 1.0;
 
-    voice.rate =
-        0.98;
+    voice.volume = 1.0;
 
+    voice.onstart = function() {
 
-    voice.pitch =
-        1.0;
+        mentorTalking();
 
+    };
 
-    voice.volume =
-        1.0;
+    voice.onend = function() {
 
+        mentorHappy();
 
-    voice.onstart =
-        function() {
-
-            mentorTalking();
-
-        };
-
-
-    voice.onend =
-        function() {
-
-            mentorHappy();
-
-
-            setTimeout(
-
-                () => {
-
-                    mentorNormal();
-
-                },
-
-                800
-
-            );
-
-        };
-
-
-    voice.onerror =
-        function() {
+        setTimeout(function() {
 
             mentorNormal();
 
-        };
+        }, 800);
 
+    };
 
-    speechSynthesis.speak(
-        voice
-    );
+    voice.onerror = function() {
 
+        mentorNormal();
+
+    };
+
+    speechSynthesis.speak(voice);
 }
 
+// ==========================================
+// GEMINI JSON API
+// ==========================================
 
-// ------------------------------------------
-// STREAM GEMINI RESPONSE
-// ------------------------------------------
-
-async function streamGeminiAnswer(
-    question,
-    mentorMessage
-) {
+async function getGeminiAnswer(question) {
 
     const response =
-        await fetch(
-            "/api/chat",
-            {
+        await fetch("/api/chat", {
 
-                method: "POST",
+            method: "POST",
 
-                headers: {
+            headers: {
+                "Content-Type":
+                    "application/json"
+            },
 
-                    "Content-Type":
-                        "application/json"
+            body: JSON.stringify({
 
-                },
+                message: question,
 
-                body: JSON.stringify({
+                history:
+                    conversationHistory
 
-                    message:
-                        question,
+            })
 
-                    history:
-                        conversationHistory
-
-                })
-
-            }
-        );
+        });
 
 
     if (!response.ok) {
 
         throw new Error(
-            "Gemini server error"
+            "Gemini server error: " +
+            response.status
         );
 
     }
 
 
-    if (!response.body) {
+    const data =
+        await response.json();
+
+
+    if (!data.success) {
 
         throw new Error(
-            "Streaming not supported"
+            data.error ||
+            "Gemini error"
         );
 
     }
 
 
-    const reader =
-        response.body.getReader();
-
-
-    const decoder =
-        new TextDecoder();
-
-
-    let buffer = "";
-
-    let fullAnswer = "";
-
-
-    // --------------------------------------
-    // READ STREAM
-    // --------------------------------------
-
-    while (true) {
-
-        const {
-            value,
-            done
-        } =
-            await reader.read();
-
-
-        if (done) {
-            break;
-        }
-
-
-        buffer +=
-            decoder.decode(
-                value,
-                {
-                    stream: true
-                }
-            );
-
-
-        const lines =
-            buffer.split("\n");
-
-
-        buffer =
-            lines.pop() || "";
-
-
-        for (
-            const line
-            of lines
-        ) {
-
-            if (!line.trim()) {
-                continue;
-            }
-
-
-            let data;
-
-
-            try {
-
-                data =
-                    JSON.parse(line);
-
-            } catch (_) {
-
-                continue;
-
-            }
-
-
-            // --------------------------------
-            // TEXT CHUNK
-            // --------------------------------
-
-            if (
-                data.type === "chunk"
-            ) {
-
-                const text =
-                    data.text || "";
-
-
-                fullAnswer +=
-                    text;
-
-
-                // SHOW IMMEDIATELY
-                mentorMessage.textContent =
-                    fullAnswer;
-
-
-                chatBox.scrollTop =
-                    chatBox.scrollHeight;
-
-            }
-
-
-            // --------------------------------
-            // ERROR
-            // --------------------------------
-
-            if (
-                data.type === "error"
-            ) {
-
-                throw new Error(
-                    data.error ||
-                    "Gemini error"
-                );
-
-            }
-
-        }
-
-    }
-
-
-    return fullAnswer.trim();
+    return (
+        data.reply || ""
+    ).trim();
 
 }
 
-
-// ------------------------------------------
+// ==========================================
 // SEND MESSAGE
-// ------------------------------------------
+// ==========================================
 
 async function sendMentorMessage() {
 
-    if (!userInput) return;
-
-
-    if (isThinking) return;
+    if (!userInput || isThinking) {
+        return;
+    }
 
 
     const question =
         userInput.value.trim();
 
 
-    if (!question) return;
+    if (!question) {
+        return;
+    }
 
 
-    // --------------------------------------
-    // ADD USER MESSAGE
-    // --------------------------------------
+    // USER MESSAGE
 
-    addUserMessage(
-        question
-    );
+    addUserMessage(question);
 
 
-    userInput.value =
-        "";
+    userInput.value = "";
 
 
-    // --------------------------------------
-    // LOCK BUTTONS
-    // --------------------------------------
+    // LOCK
 
-    isThinking =
-        true;
+    isThinking = true;
 
 
     if (sendButton) {
-
-        sendButton.disabled =
-            true;
-
+        sendButton.disabled = true;
     }
 
 
     if (micButton) {
-
-        micButton.disabled =
-            true;
-
+        micButton.disabled = true;
     }
 
 
-    // --------------------------------------
     // THINKING
-    // --------------------------------------
 
     mentorThinking();
 
 
-    // Create empty response box immediately
-    const mentorMessage =
-        createMentorMessage();
-
-
     try {
 
-        // ----------------------------------
-        // STREAM ANSWER
-        // ----------------------------------
+        // GEMINI
 
         const answer =
-            await streamGeminiAnswer(
-
-                question,
-
-                mentorMessage
-
-            );
+            await getGeminiAnswer(question);
 
 
         if (!answer) {
@@ -557,53 +285,46 @@ async function sendMentorMessage() {
         }
 
 
-        // ----------------------------------
-        // SAVE HISTORY
-        // ----------------------------------
+        // MENTOR MESSAGE
+
+        addMentorMessage(answer);
+
+
+        // HISTORY
 
         conversationHistory.push({
 
-            role:
-                "user",
+            role: "user",
 
-            text:
-                question
+            text: question
 
         });
 
 
         conversationHistory.push({
 
-            role:
-                "model",
+            role: "model",
 
-            text:
-                answer
+            text: answer
 
         });
 
 
-        // Keep recent history only
+        // KEEP LAST 6 MESSAGES
+
         if (
-            conversationHistory.length >
-            6
+            conversationHistory.length > 6
         ) {
 
             conversationHistory =
-                conversationHistory.slice(
-                    -6
-                );
+                conversationHistory.slice(-6);
 
         }
 
 
-        // ----------------------------------
-        // SPEAK AFTER ANSWER
-        // ----------------------------------
+        // SPEAK
 
-        mentorSpeak(
-            answer
-        );
+        mentorSpeak(answer);
 
 
     } catch (error) {
@@ -614,77 +335,60 @@ async function sendMentorMessage() {
         );
 
 
-        if (mentorMessage) {
-
-            mentorMessage.textContent =
-                "माफ़ कीजिए, अभी AI Mentor से connection नहीं हो पाया। कृपया फिर कोशिश करें।";
-
-        }
+        addMentorMessage(
+            "माफ़ कीजिए, अभी AI Mentor से connection नहीं हो पाया। कृपया फिर कोशिश करें।"
+        );
 
 
         mentorNormal();
 
-    }
+    } finally {
+
+        isThinking = false;
 
 
-    // --------------------------------------
-    // UNLOCK BUTTONS
-    // --------------------------------------
-
-    isThinking =
-        false;
+        if (sendButton) {
+            sendButton.disabled = false;
+        }
 
 
-    if (sendButton) {
-
-        sendButton.disabled =
-            false;
-
-    }
+        if (micButton) {
+            micButton.disabled = false;
+        }
 
 
-    if (micButton) {
-
-        micButton.disabled =
-            false;
+        if (userInput) {
+            userInput.focus();
+        }
 
     }
 
 }
 
-
-// ------------------------------------------
+// ==========================================
 // SEND BUTTON
-// ------------------------------------------
+// ==========================================
 
 if (sendButton) {
 
     sendButton.addEventListener(
-
         "click",
-
         sendMentorMessage
-
     );
 
 }
 
-
-// ------------------------------------------
+// ==========================================
 // ENTER KEY
-// ------------------------------------------
+// ==========================================
 
 if (userInput) {
 
     userInput.addEventListener(
-
         "keydown",
-
         function(event) {
 
-            if (
-                event.key === "Enter"
-            ) {
+            if (event.key === "Enter") {
 
                 event.preventDefault();
 
@@ -693,22 +397,18 @@ if (userInput) {
             }
 
         }
-
     );
 
 }
 
-
-// ------------------------------------------
+// ==========================================
 // MICROPHONE
-// ------------------------------------------
+// ==========================================
 
 if (micButton) {
 
     micButton.addEventListener(
-
         "click",
-
         function() {
 
             if (isThinking) {
@@ -731,7 +431,6 @@ if (micButton) {
                 }
 
                 return;
-
             }
 
 
@@ -760,9 +459,7 @@ if (micButton) {
 
             } catch (error) {
 
-                console.error(
-                    error
-                );
+                console.error(error);
 
                 mentorNormal();
 
@@ -775,9 +472,8 @@ if (micButton) {
                 function(event) {
 
                     const text =
-                        event
-                            .results[0][0]
-                            .transcript;
+                        event.results[0][0]
+                        .transcript;
 
 
                     if (userInput) {
@@ -801,7 +497,6 @@ if (micButton) {
                         event.error
                     );
 
-
                     mentorNormal();
 
                 };
@@ -824,106 +519,92 @@ if (micButton) {
                 };
 
         }
-
     );
 
 }
 
+// ==========================================
+// PHOTO AVATAR IDLE MOVEMENT
+// ==========================================
 
-// ------------------------------------------
-// NATURAL BLINK
-// ------------------------------------------
+function photoIdleMovement() {
 
-function naturalBlink() {
-
-    if (!mentor) return;
+    if (!mentor || isThinking) {
+        return;
+    }
 
 
-    const eyes =
-        mentor.querySelectorAll(
-            ".eye"
+    const photoWrap =
+        mentor.querySelector(
+            ".mentor-photo-wrap"
         );
 
 
-    eyes.forEach(
+    if (!photoWrap) {
+        return;
+    }
 
-        eye => {
 
-            eye.style.transform =
-                "scaleY(0.08)";
+    const direction =
+        Math.random() > 0.5
+            ? 1
+            : -1;
+
+
+    photoWrap.animate(
+
+        [
+
+            {
+                transform:
+                    "translateX(0) rotate(0deg) scale(1)"
+            },
+
+            {
+                transform:
+                    `translateX(${direction * 2}px) rotate(${direction * 0.5}deg) scale(1.006)`
+            },
+
+            {
+                transform:
+                    "translateX(0) rotate(0deg) scale(1)"
+            }
+
+        ],
+
+        {
+
+            duration: 2200,
+
+            easing: "ease-in-out"
 
         }
 
-    );
-
-
-    setTimeout(
-
-        () => {
-
-            eyes.forEach(
-
-                eye => {
-
-                    eye.style.transform =
-                        "";
-
-                }
-
-            );
-
-        },
-
-        130
-
-    );
-
-
-    const nextBlink =
-        2500 +
-        Math.random() * 4500;
-
-
-    setTimeout(
-        naturalBlink,
-        nextBlink
     );
 
 }
 
 
-setTimeout(
-    naturalBlink,
-    3000
+setInterval(
+    photoIdleMovement,
+    4500
 );
 
-
-// ------------------------------------------
+// ==========================================
 // INITIAL STATUS
-// ------------------------------------------
+// ==========================================
 
-setTimeout(
+setTimeout(function() {
 
-    () => {
+    mentorNormal();
 
-        if (mentorStatus) {
-
-            mentorStatus.textContent =
-                "👋 मैं आपकी मदद के लिए तैयार हूँ।";
-
-        }
-
-    },
-
-    2500
-
-);
+}, 500);
 
 
-// ------------------------------------------
+// ==========================================
 // START
-// ------------------------------------------
+// ==========================================
 
 console.log(
-    "AI Mentor FAST STREAMING system loaded."
+    "AI Mentor JSON + Voice + Photo Avatar system loaded."
 );
