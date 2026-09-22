@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Mentor - Face to Face</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:radial-gradient(circle at top,#243b67,#080d18 65%);
+  color:#fff;
+  min-height:100vh;
+}
+.app{
+  width:min(1050px,94%);
+  margin:24px auto;
+  background:rgba(10,16,30,.86);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:28px;
+  overflow:hidden;
+  box-shadow:0 25px 80px rgba(0,0,0,.45);
+}
+.header{
+  padding:20px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.header h1{margin:0;font-size:24px}
+.header span{font-size:13px;color:#9ee7ff}
+.main{display:grid;grid-template-columns:1fr 1fr;min-height:650px}
+.character-panel{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:30px;
+  background:linear-gradient(180deg,rgba(38,67,112,.45),rgba(8,13,24,.15));
+}
+.character{
+  position:relative;
+  width:300px;
+  height:390px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+.head{
+  position:relative;
+  margin-top:35px;
+  width:220px;
+  height:265px;
+  border-radius:48% 48% 46% 46%;
+  background:linear-gradient(145deg,#f3c29c,#d58e68);
+  box-shadow:inset -15px -20px 35px rgba(95,43,25,.18),0 25px 50px rgba(0,0,0,.35);
+  transition:.25s ease;
+}
+.hair{
+  position:absolute;
+  left:-8px;top:-20px;
+  width:236px;height:115px;
+  background:#241b20;
+  border-radius:55% 55% 35% 35%;
+}
+.eyes{position:absolute;top:105px;left:48px;right:48px;display:flex;justify-content:space-between}
+.eye{
+  width:28px;height:18px;border-radius:50%;
+  background:#fff;position:relative;
+  overflow:hidden;
+  transition:.2s;
+}
+.eye:after{
+  content:"";position:absolute;width:9px;height:9px;border-radius:50%;
+  background:#17151a;left:10px;top:4px;
+}
+.brows{position:absolute;top:85px;left:42px;right:42px;display:flex;justify-content:space-between}
+.brow{width:40px;height:6px;background:#432c26;border-radius:8px;transition:.25s}
+.nose{
+  position:absolute;top:125px;left:103px;width:15px;height:48px;
+  border-right:2px solid rgba(90,45,30,.35);border-bottom:2px solid rgba(90,45,30,.25);
+  border-radius:0 0 12px 0;
+}
+.mouth{
+  position:absolute;left:79px;top:190px;width:62px;height:20px;
+  border-bottom:4px solid #8b3f4c;border-radius:0 0 50% 50%;
+  transition:.12s;
+}
+.neck{position:absolute;top:280px;width:75px;height:80px;background:#d58e68;border-radius:20px}
+.body{
+  position:absolute;top:335px;width:250px;height:120px;
+  background:linear-gradient(145deg,#263b70,#162342);
+  border-radius:80px 80px 20px 20px;
+}
+.status{
+  margin-top:5px;
+  padding:10px 18px;border-radius:20px;
+  background:rgba(255,255,255,.08);
+  color:#bfeeff;font-size:14px;
+}
+.talking .mouth{height:30px;border:0;background:#6f2435;border-radius:45%}
+.talking .head{transform:translateY(-2px)}
+.talking .eye{transform:scaleY(.92)}
+.thinking .brow{transform:rotate(-8deg)}
+.listening .head{transform:rotate(-2deg)}
+.happy .mouth{border-bottom-width:6px}
+.surprised .mouth{width:30px;height:35px;left:95px;border:0;background:#712c3b;border-radius:50%}
+.chat-panel{padding:24px;display:flex;flex-direction:column}
+.chat{
+  flex:1;overflow:auto;padding:8px 2px 15px;
+}
+.msg{
+  max-width:88%;padding:13px 15px;border-radius:17px;margin:10px 0;
+  line-height:1.5;font-size:15px;
+}
+.mentor{background:#172746;border:1px solid rgba(158,231,255,.12)}
+.user{margin-left:auto;background:#31558e}
+.controls{display:flex;gap:10px}
+input{
+  flex:1;padding:15px;border-radius:15px;border:1px solid rgba(255,255,255,.15);
+  background:#0d1628;color:#fff;outline:none;font-size:15px;
+}
+button{
+  border:0;border-radius:15px;padding:0 18px;
+  background:#54c8ff;color:#06101d;font-weight:700;cursor:pointer;
+}
+button:hover{filter:brightness(1.08)}
+.mic{width:54px;padding:0;font-size:20px}
+.note{font-size:12px;color:#8495b2;margin-top:10px;line-height:1.4}
+@media(max-width:760px){
+ .main{grid-template-columns:1fr}
+ .character-panel{min-height:470px}
+ .character{transform:scale(.82);margin:-35px 0}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <h1>🎓 AI Mentor</h1>
+    <span>Face-to-Face Learning</span>
+  </div>
+
+  <div class="main">
+    <section class="character-panel">
+      <div id="character" class="character">
+        <div class="head">
+          <div class="hair"></div>
+          <div class="brows"><div class="brow"></div><div class="brow"></div></div>
+          <div class="eyes"><div class="eye"></div><div class="eye"></div></div>
+          <div class="nose"></div>
+          <div id="mouth" class="mouth"></div>
+        </div>
+        <div class="neck"></div>
+        <div class="body"></div>
+      </div>
+      <div id="status" class="status">👋 नमस्ते! मैं आपका AI Mentor हूँ।</div>
+    </section>
+
+    <section class="chat-panel">
+      <div id="chat" class="chat">
+        <div class="msg mentor">नमस्ते! मैं आपका AI Mentor हूँ। आप मुझसे किसी भी विषय के बारे में पूछ सकते हैं।</div>
+      </div>
+      <div class="controls">
+        <input id="input" placeholder="अपना सवाल लिखें..." autocomplete="off">
+        <button id="send">Send</button>
+        <button id="mic" class="mic" title="Voice">🎙️</button>
+      </div>
+      <div class="note">
+        अभी यह visual prototype है। अगला चरण Gemini API, real voice और real lip-sync को जोड़ना है।
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+const character=document.getElementById("character");
+const statusEl=document.getElementById("status");
+const chat=document.getElementById("chat");
+const input=document.getElementById("input");
+
+function setExpression(type,status){
+  character.className="character "+type;
+  statusEl.textContent=status;
+}
+function addMessage(text,who){
+  const d=document.createElement("div");
+  d.className="msg "+who;
+  d.textContent=text;
+  chat.appendChild(d);
+  chat.scrollTop=chat.scrollHeight;
+}
+function mentorReply(q){
+  const t=q.toLowerCase();
+  if(t.includes("नमस्ते")||t.includes("hello")||t.includes("hi"))
+    return "नमस्ते! बताइए, आज हम किस topic की तैयारी शुरू करें?";
+  if(t.includes("upsc")||t.includes("uppcs"))
+    return "बिल्कुल। हम syllabus, PYQ, concept और revision को step-by-step पढ़ सकते हैं। पहले बताइए कौन-सा subject शुरू करना है?";
+  if(t.includes("इतिहास")||t.includes("history"))
+    return "इतिहास में पहले timeline और कारण-परिणाम का framework बनाना उपयोगी रहेगा। आप चाहें तो हम किसी एक chapter से शुरू करते हैं।";
+  return "अच्छा सवाल है। मैं इसे step-by-step समझाऊँगा। अभी यह prototype है; अगले चरण में मेरा Gemini brain जोड़कर मैं आपके सवाल का वास्तविक AI उत्तर दूँगा।";
+}
+function speak(text){
+  if(!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang="hi-IN";
+  u.rate=.95;
+  u.onstart=()=>setExpression("talking","🗣️ Mentor बोल रहा है...");
+  u.onend=()=>setExpression("happy","😊 Mentor तैयार है");
+  speechSynthesis.speak(u);
+}
+function send(){
+  const q=input.value.trim();
+  if(!q)return;
+  addMessage(q,"user");
+  input.value="";
+  setExpression("thinking","🤔 Mentor सोच रहा है...");
+  setTimeout(()=>{
+    const r=mentorReply(q);
+    addMessage(r,"mentor");
+    speak(r);
+  },700);
+}
+document.getElementById("send").onclick=send;
+input.addEventListener("keydown",e=>{if(e.key==="Enter")send()});
+
+document.getElementById("mic").onclick=()=>{
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    statusEl.textContent="इस browser में voice recognition उपलब्ध नहीं है।";
+    return;
+  }
+  const rec=new SR();
+  rec.lang="hi-IN";
+  rec.interimResults=false;
+  setExpression("listening","👂 आपकी बात सुन रहा हूँ...");
+  rec.start();
+  rec.onresult=e=>{
+    input.value=e.results[0][0].transcript;
+    send();
+  };
+  rec.onerror=()=>setExpression("normal","🎙️ Microphone में समस्या हुई।");
+};
+</script>
+</body>
+</html>
