@@ -2,7 +2,6 @@
 <html lang="hi">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -19,9 +18,7 @@
         }
 
         body {
-
             margin: 0;
-
             min-height: 100vh;
 
             font-family:
@@ -29,81 +26,70 @@
                 "Noto Sans Devanagari",
                 sans-serif;
 
+            color: white;
+
             background:
                 radial-gradient(
                     circle at top,
-                    #182b72,
-                    #080b1c 65%
+                    #1d347e 0%,
+                    #0b102b 55%,
+                    #050713 100%
                 );
-
-            color: white;
         }
 
 
-        .main {
+        /* =====================================
+           MAIN
+        ===================================== */
 
+        .main {
             min-height: 100vh;
 
             display: flex;
 
             align-items: center;
-
             justify-content: center;
 
-            padding: 25px;
+            padding: 20px;
         }
 
 
         .mentor-box {
-
-            width: 1100px;
-
+            width: 1180px;
             max-width: 100%;
 
-            min-height: 650px;
+            min-height: 680px;
 
             display: grid;
 
-            grid-template-columns:
-                40% 60%;
-
-            background:
-                rgba(
-                    8,
-                    12,
-                    35,
-                    0.92
-                );
-
-            border:
-                1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.12
-                );
-
-            border-radius: 25px;
+            grid-template-columns: 46% 54%;
 
             overflow: hidden;
 
+            border-radius: 28px;
+
+            background:
+                rgba(8, 13, 37, 0.96);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.12);
+
             box-shadow:
-                0 25px 80px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.55
-                );
+                0 30px 100px
+                rgba(0,0,0,0.55);
         }
 
 
-        /* =========================
-           AVATAR
-        ========================= */
+        /* =====================================
+           LEFT MENTOR AREA
+        ===================================== */
 
         .avatar-area {
+
+            position: relative;
+
+            min-height: 680px;
 
             display: flex;
 
@@ -113,387 +99,413 @@
 
             justify-content: center;
 
-            padding: 35px;
+            padding: 25px;
+
+            overflow: hidden;
 
             background:
                 radial-gradient(
-                    circle,
-                    #253d9b,
-                    #111735
+                    circle at 50% 35%,
+                    #334ca4,
+                    #172354 50%,
+                    #0d1330
                 );
+        }
+
+
+        .avatar-area::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 360px;
+            height: 360px;
+
+            top: 90px;
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            border-radius: 50%;
+
+            background:
+                rgba(113,232,221,0.08);
+
+            filter: blur(25px);
         }
 
 
         .avatar-title {
 
-            font-size: 25px;
+            position: relative;
+
+            z-index: 5;
+
+            font-size: 28px;
 
             font-weight: bold;
 
-            margin-bottom: 25px;
+            margin-bottom: 7px;
 
             text-align: center;
         }
 
 
-        .status {
+        .avatar-subtitle {
 
-            margin-top: 20px;
+            position: relative;
 
-            color: #cfd7ff;
+            z-index: 5;
+
+            color: #b9c4ee;
+
+            font-size: 14px;
+
+            margin-bottom: 18px;
 
             text-align: center;
-
-            font-size: 15px;
         }
 
 
-        /* =========================
+        /* =====================================
+           ONLINE DOT
+        ===================================== */
+
+        .online {
+
+            display: inline-block;
+
+            width: 9px;
+            height: 9px;
+
+            margin-right: 6px;
+
+            border-radius: 50%;
+
+            background: #36e59a;
+
+            box-shadow:
+                0 0 12px
+                #36e59a;
+        }
+
+
+        /* =====================================
            CHARACTER
-        ========================= */
+        ===================================== */
 
         .character {
 
-            width: 260px;
-
-            height: 360px;
-
             position: relative;
+
+            z-index: 5;
+
+            width: 370px;
+            height: 480px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
 
             transition:
                 transform 0.3s ease;
         }
 
 
-        .head {
+        /* =====================================
+           PHOTO
+        ===================================== */
 
-            position: absolute;
+        .mentor-photo-wrap {
 
-            width: 190px;
+            position: relative;
 
-            height: 205px;
+            width: 350px;
+            height: 455px;
 
-            left: 35px;
+            overflow: hidden;
 
-            top: 20px;
+            border-radius: 30px;
 
-            background: #ffd0c5;
-
-            border-radius:
-                45% 45% 48% 48%;
-
-            z-index: 3;
-
-            box-shadow:
-                0 10px 30px
-                rgba(
-                    0,
-                    0,
-                    0,
-                    0.2
-                );
-        }
-
-
-        .hair {
-
-            position: absolute;
-
-            width: 205px;
-
-            height: 220px;
-
-            left: 28px;
-
-            top: 5px;
-
-            background: #241b27;
-
-            border-radius:
-                48% 48% 35% 35%;
-
-            z-index: 2;
-        }
-
-
-        .hair::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 35px;
-
-            height: 145px;
-
-            right: -4px;
-
-            top: 55px;
-
-            background: #241b27;
-
-            border-radius: 50%;
-        }
-
-
-        .eye {
-
-            position: absolute;
-
-            width: 25px;
-
-            height: 25px;
-
-            top: 85px;
-
-            background: white;
-
-            border-radius: 50%;
-
-            z-index: 5;
-
-            transition:
-                transform 0.12s ease;
-        }
-
-
-        .eye::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 9px;
-
-            height: 9px;
-
-            left: 8px;
-
-            top: 8px;
-
-            background: #222;
-
-            border-radius: 50%;
-        }
-
-
-        .eye.left {
-
-            left: 82px;
-        }
-
-
-        .eye.right {
-
-            right: 35px;
-        }
-
-
-        .brow {
-
-            position: absolute;
-
-            width: 40px;
-
-            height: 6px;
-
-            top: 72px;
-
-            background: #332027;
-
-            border-radius: 10px;
-
-            z-index: 6;
-        }
-
-
-        .brow.left {
-
-            left: 72px;
-
-            transform:
-                rotate(-5deg);
-        }
-
-
-        .brow.right {
-
-            right: 30px;
-
-            transform:
-                rotate(5deg);
-        }
-
-
-        .nose {
-
-            position: absolute;
-
-            left: 123px;
-
-            top: 105px;
-
-            width: 5px;
-
-            height: 50px;
-
-            background: #e5a69b;
-
-            border-radius: 10px;
-
-            z-index: 5;
-        }
-
-
-        .mouth {
-
-            position: absolute;
-
-            left: 93px;
-
-            top: 165px;
-
-            width: 65px;
-
-            height: 18px;
-
-            border-bottom:
-                4px solid #a54e62;
-
-            border-radius:
-                0 0 50% 50%;
-
-            z-index: 6;
-
-            transition:
-                all 0.2s ease;
-        }
-
-
-        .neck {
-
-            position: absolute;
-
-            width: 70px;
-
-            height: 75px;
-
-            left: 95px;
-
-            top: 190px;
-
-            background: #ffd0c5;
-
-            z-index: 1;
-        }
-
-
-        .body {
-
-            position: absolute;
-
-            width: 220px;
-
-            height: 145px;
-
-            left: 20px;
-
-            top: 230px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #374bd0,
-                    #1b277d
-                );
-
-            border-radius:
-                80px 80px 20px 20px;
-
-            z-index: 1;
-        }
-
-
-        /* =========================
-           EXPRESSIONS
-        ========================= */
-
-        .character.listening {
-
-            transform:
-                scale(1.02);
-        }
-
-
-        .character.thinking
-        .brow.left {
-
-            transform:
-                rotate(-15deg);
-        }
-
-
-        .character.thinking
-        .brow.right {
-
-            transform:
-                rotate(15deg);
-        }
-
-
-        .character.happy
-        .mouth {
-
-            height: 30px;
-
-            border-bottom-width: 5px;
-        }
-
-
-        .character.surprised
-        .mouth {
-
-            width: 28px;
-
-            height: 32px;
-
-            left: 112px;
+            background: #101735;
 
             border:
-                4px solid #a54e62;
+                2px solid
+                rgba(255,255,255,0.12);
 
-            border-radius: 50%;
+            box-shadow:
+                0 25px 70px
+                rgba(0,0,0,0.5);
+
+            transform-origin:
+                50% 70%;
         }
 
 
-        .character.talking
-        .mouth {
+        .mentor-photo {
+
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            object-position:
+                center top;
+
+            user-select: none;
+
+            pointer-events: none;
+        }
+
+
+        /* =====================================
+           NORMAL
+        ===================================== */
+
+        .character.normal
+        .mentor-photo-wrap {
 
             animation:
-                talk
-                0.22s
-                infinite
-                alternate;
+                mentorIdle
+                4s
+                ease-in-out
+                infinite;
         }
 
 
-        @keyframes talk {
+        @keyframes mentorIdle {
 
-            from {
-
-                height: 12px;
+            0% {
+                transform:
+                    translateY(0)
+                    scale(1);
             }
 
-            to {
+            50% {
+                transform:
+                    translateY(-3px)
+                    scale(1.008);
+            }
 
-                height: 28px;
+            100% {
+                transform:
+                    translateY(0)
+                    scale(1);
             }
         }
 
 
-        /* =========================
-           CHAT
-        ========================= */
+        /* =====================================
+           LISTENING
+        ===================================== */
+
+        .character.listening
+        .mentor-photo-wrap {
+
+            animation:
+                mentorListening
+                1.6s
+                ease-in-out
+                infinite;
+        }
+
+
+        @keyframes mentorListening {
+
+            0% {
+                transform:
+                    translateX(0)
+                    rotate(0deg)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translateX(3px)
+                    rotate(1deg)
+                    scale(1.015);
+            }
+
+            100% {
+                transform:
+                    translateX(0)
+                    rotate(0deg)
+                    scale(1);
+            }
+        }
+
+
+        /* =====================================
+           THINKING
+        ===================================== */
+
+        .character.thinking
+        .mentor-photo-wrap {
+
+            animation:
+                mentorThinking
+                1.5s
+                ease-in-out
+                infinite;
+        }
+
+
+        @keyframes mentorThinking {
+
+            0% {
+                transform:
+                    rotate(0deg)
+                    translateY(0);
+            }
+
+            30% {
+                transform:
+                    rotate(-1deg)
+                    translateY(-2px);
+            }
+
+            60% {
+                transform:
+                    rotate(1deg)
+                    translateY(-1px);
+            }
+
+            100% {
+                transform:
+                    rotate(0deg)
+                    translateY(0);
+            }
+        }
+
+
+        /* =====================================
+           TALKING
+        ===================================== */
+
+        .character.talking
+        .mentor-photo-wrap {
+
+            animation:
+                mentorTalking
+                0.7s
+                ease-in-out
+                infinite;
+        }
+
+
+        @keyframes mentorTalking {
+
+            0% {
+                transform:
+                    translateY(0)
+                    rotate(0deg)
+                    scale(1);
+            }
+
+            25% {
+                transform:
+                    translateY(-2px)
+                    rotate(-0.6deg)
+                    scale(1.012);
+            }
+
+            50% {
+                transform:
+                    translateY(0)
+                    rotate(0.7deg)
+                    scale(1.018);
+            }
+
+            75% {
+                transform:
+                    translateY(-2px)
+                    rotate(-0.5deg)
+                    scale(1.01);
+            }
+
+            100% {
+                transform:
+                    translateY(0)
+                    rotate(0deg)
+                    scale(1);
+            }
+        }
+
+
+        /* =====================================
+           HAPPY
+        ===================================== */
+
+        .character.happy
+        .mentor-photo-wrap {
+
+            animation:
+                mentorHappy
+                1.2s
+                ease-in-out
+                infinite;
+        }
+
+
+        @keyframes mentorHappy {
+
+            0% {
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translateY(-4px)
+                    scale(1.015);
+            }
+
+            100% {
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        /* =====================================
+           STATUS
+        ===================================== */
+
+        .status {
+
+            position: relative;
+
+            z-index: 5;
+
+            margin-top: 12px;
+
+            padding:
+                10px 18px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(0,0,0,0.25);
+
+            color:
+                #dce3ff;
+
+            font-size: 14px;
+
+            text-align: center;
+        }
+
+
+        /* =====================================
+           CHAT AREA
+        ===================================== */
 
         .chat-area {
 
@@ -501,7 +513,25 @@
 
             flex-direction: column;
 
+            min-width: 0;
+
             padding: 30px;
+        }
+
+
+        .chat-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding-bottom: 18px;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.08);
         }
 
 
@@ -510,34 +540,51 @@
             font-size: 28px;
 
             font-weight: bold;
-
-            margin-bottom: 5px;
         }
 
 
         .chat-subtitle {
 
-            color: #aeb8e8;
+            color:
+                #9fa9d5;
 
-            font-size: 14px;
+            font-size: 13px;
 
-            margin-bottom: 20px;
+            margin-top: 5px;
         }
 
+
+        .online-text {
+
+            color:
+                #58e8a8;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================
+           CHAT
+        ===================================== */
 
         .chat {
 
             flex: 1;
 
+            min-height: 350px;
+
             overflow-y: auto;
 
-            padding: 10px;
+            padding:
+                20px 5px;
 
             display: flex;
 
             flex-direction: column;
 
             gap: 12px;
+
+            scroll-behavior: smooth;
         }
 
 
@@ -548,13 +595,40 @@
             padding:
                 13px 17px;
 
-            border-radius: 16px;
+            border-radius: 17px;
 
-            line-height: 1.5;
+            line-height: 1.55;
+
+            font-size: 15px;
 
             white-space: pre-wrap;
 
-            font-size: 15px;
+            word-wrap: break-word;
+
+            animation:
+                messageIn
+                0.2s
+                ease-out;
+        }
+
+
+        @keyframes messageIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(5px);
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
         }
 
 
@@ -565,12 +639,11 @@
             background:
                 linear-gradient(
                     135deg,
-                    #365be9,
-                    #2441b5
+                    #3866f0,
+                    #2446c4
                 );
 
-            border-bottom-right-radius:
-                5px;
+            border-bottom-right-radius: 5px;
         }
 
 
@@ -579,20 +652,76 @@
             align-self: flex-start;
 
             background:
-                #20295b;
+                #202a5a;
 
-            border-bottom-left-radius:
-                5px;
+            border-bottom-left-radius: 5px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.05);
         }
 
+
+        /* =====================================
+           SUBJECT BUTTONS
+        ===================================== */
+
+        .subjects {
+
+            display: flex;
+
+            gap: 8px;
+
+            overflow-x: auto;
+
+            padding:
+                5px 0 12px;
+        }
+
+
+        .subject {
+
+            flex-shrink: 0;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.15);
+
+            background:
+                rgba(255,255,255,0.04);
+
+            color:
+                #dbe2ff;
+
+            border-radius: 20px;
+
+            padding:
+                8px 13px;
+
+            font-size: 12px;
+
+            cursor: pointer;
+        }
+
+
+        .subject:hover {
+
+            background:
+                rgba(113,232,221,0.12);
+        }
+
+
+        /* =====================================
+           INPUT
+        ===================================== */
 
         .input-area {
 
             display: flex;
 
-            gap: 10px;
+            gap: 9px;
 
-            margin-top: 15px;
+            margin-top: 5px;
         }
 
 
@@ -602,22 +731,21 @@
 
             min-width: 0;
 
-            padding: 15px;
+            height: 52px;
 
-            border-radius: 14px;
+            padding:
+                0 16px;
+
+            border-radius: 15px;
 
             border:
                 1px solid
-                rgba(
-                    255,
-                    255,
-                    255,
-                    0.15
-                );
+                rgba(255,255,255,0.14);
 
             outline: none;
 
-            background: #11183a;
+            background:
+                #101735;
 
             color: white;
 
@@ -625,9 +753,17 @@
         }
 
 
+        #input:focus {
+
+            border-color:
+                rgba(113,232,221,0.6);
+        }
+
+
         #input::placeholder {
 
-            color: #8993c4;
+            color:
+                #7f89b7;
         }
 
 
@@ -635,26 +771,44 @@
 
             border: none;
 
-            border-radius: 13px;
-
-            padding:
-                0 20px;
+            border-radius: 14px;
 
             cursor: pointer;
 
             font-weight: bold;
 
-            background: #71e8dd;
+            transition:
+                transform 0.15s ease,
+                opacity 0.15s ease;
+        }
 
-            color: #08121e;
+
+        button:hover {
+
+            transform:
+                translateY(-1px);
         }
 
 
         button:disabled {
 
-            opacity: 0.5;
+            opacity: 0.45;
 
             cursor: not-allowed;
+
+            transform: none;
+        }
+
+
+        #send {
+
+            min-width: 85px;
+
+            background:
+                #71e8dd;
+
+            color:
+                #07131d;
         }
 
 
@@ -662,48 +816,125 @@
 
             width: 55px;
 
-            padding: 0;
+            background:
+                #293561;
+
+            color: white;
 
             font-size: 20px;
         }
 
 
+        /* =====================================
+           FOOTER
+        ===================================== */
+
         .note {
 
             text-align: center;
 
-            color: #737da9;
+            color:
+                #6f79a8;
 
-            font-size: 12px;
+            font-size: 11px;
 
             margin-top: 10px;
         }
 
 
-        /* =========================
+        /* =====================================
            MOBILE
-        ========================= */
+        ===================================== */
 
-        @media (max-width: 800px) {
+        @media (max-width: 850px) {
+
+            .main {
+                padding: 10px;
+            }
+
 
             .mentor-box {
 
                 grid-template-columns:
                     1fr;
+
+                border-radius: 20px;
             }
 
 
             .avatar-area {
 
-                min-height: 430px;
+                min-height: 570px;
+            }
+
+
+            .character {
+
+                width: 310px;
+
+                height: 410px;
+            }
+
+
+            .mentor-photo-wrap {
+
+                width: 290px;
+
+                height: 385px;
             }
 
 
             .chat-area {
 
-                min-height: 550px;
+                min-height: 560px;
+
+                padding: 20px;
+            }
+        }
+
+
+        @media (max-width: 450px) {
+
+            .avatar-area {
+
+                min-height: 500px;
             }
 
+
+            .character {
+
+                width: 270px;
+
+                height: 365px;
+            }
+
+
+            .mentor-photo-wrap {
+
+                width: 250px;
+
+                height: 340px;
+            }
+
+
+            .avatar-title {
+
+                font-size: 23px;
+            }
+
+
+            .chat-title {
+
+                font-size: 23px;
+            }
+
+
+            .msg {
+
+                max-width: 92%;
+
+                font-size: 14px;
+            }
         }
 
     </style>
@@ -720,47 +951,57 @@
     <div class="mentor-box">
 
 
-        <!-- =========================
-             AVATAR
-        ========================== -->
+        <!-- =================================
+             AI MENTOR
+        ================================== -->
 
         <section class="avatar-area">
 
 
             <div class="avatar-title">
 
-                मेरा AI Study Mentor
+                AI Study Mentor
 
             </div>
 
+
+            <div class="avatar-subtitle">
+
+                <span class="online"></span>
+
+                आपकी Personal Study Mentor
+
+            </div>
+
+
+            <!-- =================================
+                 MENTOR PHOTO
+            ================================== -->
 
             <div
                 id="character"
                 class="character normal"
             >
 
-               
-<div id="character" class="character normal">
+                <div
+                    class="mentor-photo-wrap"
+                >
 
-    <div class="mentor-photo-wrap">
+                    <img
+                        id="mentorPhoto"
+                        class="mentor-photo"
+                        src="mentor.png"
+                        alt="AI Study Mentor"
+                    >
 
-        <img
-            id="mentorPhoto"
-            class="mentor-photo"
-            src="mentor.png"
-            alt="AI Study Mentor"
-        >
-
-    </div>
-
-</div>
-
-                <div class="neck"></div>
-
-                <div class="body"></div>
+                </div>
 
             </div>
 
+
+            <!-- =================================
+                 STATUS
+            ================================== -->
 
             <div
                 id="status"
@@ -775,63 +1016,171 @@
         </section>
 
 
-        <!-- =========================
+
+        <!-- =================================
              CHAT
-        ========================== -->
+        ================================== -->
 
         <section class="chat-area">
 
 
-            <div class="chat-title">
+            <div class="chat-header">
 
-                AI Mentor
+
+                <div>
+
+                    <div class="chat-title">
+
+                        AI Mentor
+
+                    </div>
+
+
+                    <div class="chat-subtitle">
+
+                        UPSC • UPPCS • Study • Revision • PYQ
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="online-text"
+                >
+
+                    <span class="online"></span>
+
+                    Online
+
+                </div>
+
 
             </div>
 
 
-            <div class="chat-subtitle">
-
-                आप मुझसे किसी भी विषय के बारे में पूछ सकते हैं।
-
-            </div>
-
+            <!-- =================================
+                 CHAT MESSAGES
+            ================================== -->
 
             <div
                 id="chat"
                 class="chat"
             >
 
+
                 <div class="msg mentor">
 
-                    नमस्ते! मैं आपका AI Mentor हूँ।
-                    आप UPSC, UPPCS, History, Geography,
-                    Polity या किसी भी विषय के बारे में
-                    सवाल पूछ सकते हैं।
+                    नमस्ते! 👋
+
+                    मैं आपकी AI Study Mentor हूँ।
+
+                    आप UPSC, UPPCS, History,
+                    Geography, Polity, Economy,
+                    Environment या किसी भी विषय
+                    के बारे में मुझसे पूछ सकते हैं।
+
+                    आज हम क्या पढ़ना शुरू करें?
 
                 </div>
+
 
             </div>
 
 
-            <div class="input-area">
+            <!-- =================================
+                 SUBJECTS
+            ================================== -->
+
+            <div
+                class="subjects"
+            >
+
+
+                <button
+                    class="subject"
+                    type="button"
+                    onclick="setSubject('History')"
+                >
+
+                    History
+
+                </button>
+
+
+                <button
+                    class="subject"
+                    type="button"
+                    onclick="setSubject('Polity')"
+                >
+
+                    Polity
+
+                </button>
+
+
+                <button
+                    class="subject"
+                    type="button"
+                    onclick="setSubject('Geography')"
+                >
+
+                    Geography
+
+                </button>
+
+
+                <button
+                    class="subject"
+                    type="button"
+                    onclick="setSubject('Economy')"
+                >
+
+                    Economy
+
+                </button>
+
+
+                <button
+                    class="subject"
+                    type="button"
+                    onclick="setSubject('Current Affairs')"
+                >
+
+                    Current Affairs
+
+                </button>
+
+
+                <button
+                    class="subject"
+                    type="button"
+                    onclick="setSubject('PYQ')"
+                >
+
+                    PYQ
+
+                </button>
+
+
+            </div>
+
+
+            <!-- =================================
+                 INPUT
+            ================================== -->
+
+            <div
+                class="input-area"
+            >
 
 
                 <input
                     id="input"
                     type="text"
-                    placeholder="अपना सवाल लिखें..."
                     autocomplete="off"
+                    placeholder="अपना सवाल लिखें या 🎤 से बोलें..."
                 >
-
-
-                <button
-                    id="send"
-                    type="button"
-                >
-
-                    Send
-
-                </button>
 
 
                 <button
@@ -845,12 +1194,24 @@
                 </button>
 
 
+                <button
+                    id="send"
+                    type="button"
+                >
+
+                    Send
+
+                </button>
+
+
             </div>
 
 
-            <div class="note">
+            <div
+                class="note"
+            >
 
-                आपका सवाल सुरक्षित रूप से AI Mentor server को भेजा जाएगा।
+                AI Mentor • आपकी पढ़ाई का Personal Companion
 
             </div>
 
@@ -860,13 +1221,38 @@
 
     </div>
 
-
 </div>
 
 
+
 <!-- ==========================================
-     ONLY ONE JAVASCRIPT FILE
-     ========================================== -->
+     SUBJECT BUTTON
+========================================== -->
+
+<script>
+
+function setSubject(subject) {
+
+    const input =
+        document.getElementById("input");
+
+    if (!input) return;
+
+    input.value =
+        subject +
+        " के बारे में मुझे पढ़ाइए।";
+
+    input.focus();
+
+}
+
+</script>
+
+
+
+<!-- ==========================================
+     YOUR EXISTING AI JAVASCRIPT
+========================================== -->
 
 <script src="app.js"></script>
 
