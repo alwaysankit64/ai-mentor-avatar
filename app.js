@@ -1,6 +1,6 @@
 // ==========================================
 // AI MENTOR - app.js
-// Gemini AI + Character + Voice + Expressions
+// FAST STREAMING + VOICE + EXPRESSIONS
 // ==========================================
 
 
@@ -8,12 +8,23 @@
 // ELEMENTS
 // ------------------------------------------
 
-const mentor = document.getElementById("character");
-const mentorStatus = document.getElementById("status");
-const chatBox = document.getElementById("chat");
-const userInput = document.getElementById("input");
-const sendButton = document.getElementById("send");
-const micButton = document.getElementById("mic");
+const mentor =
+    document.getElementById("character");
+
+const mentorStatus =
+    document.getElementById("status");
+
+const chatBox =
+    document.getElementById("chat");
+
+const userInput =
+    document.getElementById("input");
+
+const sendButton =
+    document.getElementById("send");
+
+const micButton =
+    document.getElementById("mic");
 
 
 // ------------------------------------------
@@ -22,141 +33,167 @@ const micButton = document.getElementById("mic");
 
 let isThinking = false;
 
-// Conversation history
 let conversationHistory = [];
 
 
 // ------------------------------------------
-// CHARACTER EXPRESSIONS
+// EXPRESSIONS
 // ------------------------------------------
 
-function mentorExpression(expression, message) {
+function mentorExpression(
+    expression,
+    message
+) {
 
     if (!mentor) return;
 
-    mentor.className = "character " + expression;
 
-    if (mentorStatus && message) {
-        mentorStatus.textContent = message;
+    mentor.className =
+        "character " + expression;
+
+
+    if (
+        mentorStatus &&
+        message
+    ) {
+
+        mentorStatus.textContent =
+            message;
+
     }
+
 }
 
-
-// ------------------------------------------
-// LISTENING
-// ------------------------------------------
 
 function mentorListening() {
 
     mentorExpression(
+
         "listening",
+
         "👂 मैं आपकी बात ध्यान से सुन रहा हूँ..."
+
     );
+
 }
 
-
-// ------------------------------------------
-// THINKING
-// ------------------------------------------
 
 function mentorThinking() {
 
     mentorExpression(
+
         "thinking",
-        "🤔 एक सेकंड... मैं सोच रहा हूँ..."
+
+        "🤔 सोच रहा हूँ..."
+
     );
+
 }
 
-
-// ------------------------------------------
-// TALKING
-// ------------------------------------------
 
 function mentorTalking() {
 
     mentorExpression(
+
         "talking",
+
         "🗣️ Mentor बोल रहा है..."
+
     );
+
 }
 
-
-// ------------------------------------------
-// HAPPY
-// ------------------------------------------
 
 function mentorHappy() {
 
     mentorExpression(
+
         "happy",
+
         "😊 बहुत बढ़िया!"
+
     );
+
 }
 
-
-// ------------------------------------------
-// SURPRISED
-// ------------------------------------------
-
-function mentorSurprised() {
-
-    mentorExpression(
-        "surprised",
-        "😮 Interesting सवाल है..."
-    );
-}
-
-
-// ------------------------------------------
-// NORMAL
-// ------------------------------------------
 
 function mentorNormal() {
 
     mentorExpression(
+
         "",
+
         "👋 मैं आपकी मदद के लिए तैयार हूँ।"
+
     );
+
 }
 
 
 // ------------------------------------------
-// ADD USER MESSAGE
+// USER MESSAGE
 // ------------------------------------------
 
 function addUserMessage(text) {
 
     if (!chatBox) return;
 
-    const message = document.createElement("div");
 
-    message.className = "msg user";
+    const message =
+        document.createElement("div");
 
-    message.textContent = text;
 
-    chatBox.appendChild(message);
+    message.className =
+        "msg user";
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+
+    message.textContent =
+        text;
+
+
+    chatBox.appendChild(
+        message
+    );
+
+
+    chatBox.scrollTop =
+        chatBox.scrollHeight;
+
 }
 
 
 // ------------------------------------------
-// ADD MENTOR MESSAGE
+// CREATE STREAMING MENTOR MESSAGE
 // ------------------------------------------
 
-function addMentorMessage(text) {
+function createMentorMessage() {
 
-    if (!chatBox) return;
+    if (!chatBox) return null;
 
-    const message = document.createElement("div");
 
-    message.className = "msg mentor";
+    const message =
+        document.createElement("div");
 
-    message.textContent = text;
 
-    chatBox.appendChild(message);
+    message.className =
+        "msg mentor";
 
-    chatBox.scrollTop = chatBox.scrollHeight;
+
+    message.textContent =
+        "";
+
+
+    chatBox.appendChild(
+        message
+    );
+
+
+    chatBox.scrollTop =
+        chatBox.scrollHeight;
+
+
+    return message;
+
 }
 
 
@@ -166,114 +203,269 @@ function addMentorMessage(text) {
 
 function mentorSpeak(text) {
 
-    if (!("speechSynthesis" in window)) {
+    if (
+        !text ||
+        !("speechSynthesis" in window)
+    ) {
 
         mentorNormal();
 
         return;
+
     }
+
 
     speechSynthesis.cancel();
 
+
     const voice =
-        new SpeechSynthesisUtterance(text);
-
-    voice.lang = "hi-IN";
-
-    voice.rate = 0.95;
-
-    voice.pitch = 1.0;
-
-    voice.volume = 1.0;
+        new SpeechSynthesisUtterance(
+            text
+        );
 
 
-    // --------------------------------------
-    // VOICE START
-    // --------------------------------------
-
-    voice.onstart = function () {
-
-        mentorTalking();
-
-    };
+    voice.lang =
+        "hi-IN";
 
 
-    // --------------------------------------
-    // VOICE END
-    // --------------------------------------
+    voice.rate =
+        0.98;
 
-    voice.onend = function () {
 
-        mentorHappy();
+    voice.pitch =
+        1.0;
 
-        setTimeout(() => {
+
+    voice.volume =
+        1.0;
+
+
+    voice.onstart =
+        function() {
+
+            mentorTalking();
+
+        };
+
+
+    voice.onend =
+        function() {
+
+            mentorHappy();
+
+
+            setTimeout(
+
+                () => {
+
+                    mentorNormal();
+
+                },
+
+                800
+
+            );
+
+        };
+
+
+    voice.onerror =
+        function() {
 
             mentorNormal();
 
-        }, 1000);
-
-    };
+        };
 
 
-    // --------------------------------------
-    // VOICE ERROR
-    // --------------------------------------
+    speechSynthesis.speak(
+        voice
+    );
 
-    voice.onerror = function () {
-
-        mentorNormal();
-
-    };
-
-
-    speechSynthesis.speak(voice);
 }
 
 
 // ------------------------------------------
-// SEND MESSAGE TO GEMINI BACKEND
+// STREAM GEMINI RESPONSE
 // ------------------------------------------
 
-async function sendToGemini(question) {
+async function streamGeminiAnswer(
+    question,
+    mentorMessage
+) {
 
-    const response = await fetch("/api/chat", {
+    const response =
+        await fetch(
+            "/api/chat",
+            {
 
-        method: "POST",
+                method: "POST",
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+                headers: {
 
-        body: JSON.stringify({
+                    "Content-Type":
+                        "application/json"
 
-            message: question,
+                },
 
-            history: conversationHistory
+                body: JSON.stringify({
 
-        })
+                    message:
+                        question,
 
-    });
+                    history:
+                        conversationHistory
+
+                })
+
+            }
+        );
 
 
-    const data = await response.json();
-
-
-    if (!response.ok || !data.success) {
+    if (!response.ok) {
 
         throw new Error(
-            data.error ||
-            "AI Mentor से response नहीं मिला।"
+            "Gemini server error"
         );
 
     }
 
 
-    return data.reply;
+    if (!response.body) {
+
+        throw new Error(
+            "Streaming not supported"
+        );
+
+    }
+
+
+    const reader =
+        response.body.getReader();
+
+
+    const decoder =
+        new TextDecoder();
+
+
+    let buffer = "";
+
+    let fullAnswer = "";
+
+
+    // --------------------------------------
+    // READ STREAM
+    // --------------------------------------
+
+    while (true) {
+
+        const {
+            value,
+            done
+        } =
+            await reader.read();
+
+
+        if (done) {
+            break;
+        }
+
+
+        buffer +=
+            decoder.decode(
+                value,
+                {
+                    stream: true
+                }
+            );
+
+
+        const lines =
+            buffer.split("\n");
+
+
+        buffer =
+            lines.pop() || "";
+
+
+        for (
+            const line
+            of lines
+        ) {
+
+            if (!line.trim()) {
+                continue;
+            }
+
+
+            let data;
+
+
+            try {
+
+                data =
+                    JSON.parse(line);
+
+            } catch (_) {
+
+                continue;
+
+            }
+
+
+            // --------------------------------
+            // TEXT CHUNK
+            // --------------------------------
+
+            if (
+                data.type === "chunk"
+            ) {
+
+                const text =
+                    data.text || "";
+
+
+                fullAnswer +=
+                    text;
+
+
+                // SHOW IMMEDIATELY
+                mentorMessage.textContent =
+                    fullAnswer;
+
+
+                chatBox.scrollTop =
+                    chatBox.scrollHeight;
+
+            }
+
+
+            // --------------------------------
+            // ERROR
+            // --------------------------------
+
+            if (
+                data.type === "error"
+            ) {
+
+                throw new Error(
+                    data.error ||
+                    "Gemini error"
+                );
+
+            }
+
+        }
+
+    }
+
+
+    return fullAnswer.trim();
+
 }
 
 
 // ------------------------------------------
-// MAIN SEND FUNCTION
+// SEND MESSAGE
 // ------------------------------------------
 
 async function sendMentorMessage() {
@@ -281,7 +473,6 @@ async function sendMentorMessage() {
     if (!userInput) return;
 
 
-    // Prevent multiple requests
     if (isThinking) return;
 
 
@@ -293,102 +484,142 @@ async function sendMentorMessage() {
 
 
     // --------------------------------------
-    // USER MESSAGE
+    // ADD USER MESSAGE
     // --------------------------------------
 
-    addUserMessage(question);
+    addUserMessage(
+        question
+    );
 
-    userInput.value = "";
+
+    userInput.value =
+        "";
+
+
+    // --------------------------------------
+    // LOCK BUTTONS
+    // --------------------------------------
+
+    isThinking =
+        true;
+
+
+    if (sendButton) {
+
+        sendButton.disabled =
+            true;
+
+    }
+
+
+    if (micButton) {
+
+        micButton.disabled =
+            true;
+
+    }
 
 
     // --------------------------------------
     // THINKING
     // --------------------------------------
 
-    isThinking = true;
-
-    if (sendButton) {
-        sendButton.disabled = true;
-    }
-
-    if (micButton) {
-        micButton.disabled = true;
-    }
-
     mentorThinking();
+
+
+    // Create empty response box immediately
+    const mentorMessage =
+        createMentorMessage();
 
 
     try {
 
         // ----------------------------------
-        // SEND TO REAL GEMINI
+        // STREAM ANSWER
         // ----------------------------------
 
         const answer =
-            await sendToGemini(question);
+            await streamGeminiAnswer(
+
+                question,
+
+                mentorMessage
+
+            );
 
 
-        // ----------------------------------
-        // SAVE CONVERSATION
-        // ----------------------------------
+        if (!answer) {
 
-        conversationHistory.push({
-
-            role: "user",
-
-            text: question
-
-        });
-
-
-        conversationHistory.push({
-
-            role: "model",
-
-            text: answer
-
-        });
-
-
-        // ----------------------------------
-        // Keep only recent history
-        // ----------------------------------
-
-        if (conversationHistory.length > 8) {
-
-            conversationHistory =
-                conversationHistory.slice(-8);
+            throw new Error(
+                "Empty Gemini response"
+            );
 
         }
 
 
         // ----------------------------------
-        // SHOW GEMINI ANSWER
+        // SAVE HISTORY
         // ----------------------------------
 
-        addMentorMessage(answer);
+        conversationHistory.push({
+
+            role:
+                "user",
+
+            text:
+                question
+
+        });
+
+
+        conversationHistory.push({
+
+            role:
+                "model",
+
+            text:
+                answer
+
+        });
+
+
+        // Keep recent history only
+        if (
+            conversationHistory.length >
+            6
+        ) {
+
+            conversationHistory =
+                conversationHistory.slice(
+                    -6
+                );
+
+        }
 
 
         // ----------------------------------
-        // SPEAK ANSWER
+        // SPEAK AFTER ANSWER
         // ----------------------------------
 
-        mentorSpeak(answer);
+        mentorSpeak(
+            answer
+        );
 
 
     } catch (error) {
 
         console.error(
-            "AI Mentor Error:",
+            "AI Mentor error:",
             error
         );
 
 
-        const errorMessage =
-            "माफ़ कीजिए, अभी AI Mentor से connection नहीं हो पाया। कृपया कुछ सेकंड बाद फिर कोशिश करें।";
+        if (mentorMessage) {
 
+            mentorMessage.textContent =
+                "माफ़ कीजिए, अभी AI Mentor से connection नहीं हो पाया। कृपया फिर कोशिश करें।";
 
-        addMentorMessage(errorMessage);
+        }
 
 
         mentorNormal();
@@ -397,18 +628,26 @@ async function sendMentorMessage() {
 
 
     // --------------------------------------
-    // ENABLE BUTTONS AGAIN
+    // UNLOCK BUTTONS
     // --------------------------------------
 
-    isThinking = false;
+    isThinking =
+        false;
 
 
     if (sendButton) {
-        sendButton.disabled = false;
+
+        sendButton.disabled =
+            false;
+
     }
 
+
     if (micButton) {
-        micButton.disabled = false;
+
+        micButton.disabled =
+            false;
+
     }
 
 }
@@ -421,8 +660,11 @@ async function sendMentorMessage() {
 if (sendButton) {
 
     sendButton.addEventListener(
+
         "click",
+
         sendMentorMessage
+
     );
 
 }
@@ -440,7 +682,9 @@ if (userInput) {
 
         function(event) {
 
-            if (event.key === "Enter") {
+            if (
+                event.key === "Enter"
+            ) {
 
                 event.preventDefault();
 
@@ -456,7 +700,7 @@ if (userInput) {
 
 
 // ------------------------------------------
-// MICROPHONE / SPEECH RECOGNITION
+// MICROPHONE
 // ------------------------------------------
 
 if (micButton) {
@@ -467,8 +711,9 @@ if (micButton) {
 
         function() {
 
-            // Don't start microphone while AI is answering
-            if (isThinking) return;
+            if (isThinking) {
+                return;
+            }
 
 
             const SpeechRecognition =
@@ -494,16 +739,17 @@ if (micButton) {
                 new SpeechRecognition();
 
 
-            recognition.lang = "hi-IN";
-
-            recognition.interimResults = false;
-
-            recognition.continuous = false;
+            recognition.lang =
+                "hi-IN";
 
 
-            // ----------------------------------
-            // LISTENING
-            // ----------------------------------
+            recognition.interimResults =
+                false;
+
+
+            recognition.continuous =
+                false;
+
 
             mentorListening();
 
@@ -515,7 +761,6 @@ if (micButton) {
             } catch (error) {
 
                 console.error(
-                    "Microphone error:",
                     error
                 );
 
@@ -525,10 +770,6 @@ if (micButton) {
 
             }
 
-
-            // ----------------------------------
-            // VOICE RESULT
-            // ----------------------------------
 
             recognition.onresult =
                 function(event) {
@@ -541,37 +782,30 @@ if (micButton) {
 
                     if (userInput) {
 
-                        userInput.value = text;
+                        userInput.value =
+                            text;
 
                     }
 
 
-                    // Automatically send to Gemini
                     sendMentorMessage();
 
                 };
 
 
-            // ----------------------------------
-            // VOICE ERROR
-            // ----------------------------------
-
             recognition.onerror =
                 function(event) {
 
                     console.error(
-                        "Speech recognition error:",
+                        "Speech error:",
                         event.error
                     );
+
 
                     mentorNormal();
 
                 };
 
-
-            // ----------------------------------
-            // VOICE END
-            // ----------------------------------
 
             recognition.onend =
                 function() {
@@ -597,7 +831,7 @@ if (micButton) {
 
 
 // ------------------------------------------
-// NATURAL BLINKING
+// NATURAL BLINK
 // ------------------------------------------
 
 function naturalBlink() {
@@ -606,7 +840,9 @@ function naturalBlink() {
 
 
     const eyes =
-        mentor.querySelectorAll(".eye");
+        mentor.querySelectorAll(
+            ".eye"
+        );
 
 
     eyes.forEach(
@@ -689,5 +925,5 @@ setTimeout(
 // ------------------------------------------
 
 console.log(
-    "AI Mentor - Gemini character system loaded successfully."
+    "AI Mentor FAST STREAMING system loaded."
 );
