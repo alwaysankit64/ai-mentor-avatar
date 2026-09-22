@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -17,8 +19,11 @@
         }
 
         body {
+
             margin: 0;
+
             min-height: 100vh;
+
             font-family:
                 Arial,
                 "Noto Sans Devanagari",
@@ -34,30 +39,50 @@
             color: white;
         }
 
+
         .main {
+
             min-height: 100vh;
 
             display: flex;
+
             align-items: center;
+
             justify-content: center;
 
             padding: 25px;
         }
 
+
         .mentor-box {
+
             width: 1100px;
+
             max-width: 100%;
 
             min-height: 650px;
 
             display: grid;
-            grid-template-columns: 40% 60%;
 
-            background: rgba(8, 12, 35, 0.92);
+            grid-template-columns:
+                40% 60%;
+
+            background:
+                rgba(
+                    8,
+                    12,
+                    35,
+                    0.92
+                );
 
             border:
                 1px solid
-                rgba(255,255,255,0.12);
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.12
+                );
 
             border-radius: 25px;
 
@@ -65,18 +90,27 @@
 
             box-shadow:
                 0 25px 80px
-                rgba(0,0,0,0.55);
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.55
+                );
         }
 
+
         /* =========================
-           LEFT - AVATAR
+           AVATAR
         ========================= */
 
         .avatar-area {
+
             display: flex;
+
             flex-direction: column;
 
             align-items: center;
+
             justify-content: center;
 
             padding: 35px;
@@ -89,8 +123,11 @@
                 );
         }
 
+
         .avatar-title {
+
             font-size: 25px;
+
             font-weight: bold;
 
             margin-bottom: 25px;
@@ -98,7 +135,9 @@
             text-align: center;
         }
 
+
         .status {
+
             margin-top: 20px;
 
             color: #cfd7ff;
@@ -108,12 +147,15 @@
             font-size: 15px;
         }
 
+
         /* =========================
-           SIMPLE AI AVATAR
+           CHARACTER
         ========================= */
 
         .character {
+
             width: 260px;
+
             height: 360px;
 
             position: relative;
@@ -122,13 +164,17 @@
                 transform 0.3s ease;
         }
 
+
         .head {
+
             position: absolute;
 
             width: 190px;
+
             height: 205px;
 
             left: 35px;
+
             top: 20px;
 
             background: #ffd0c5;
@@ -140,16 +186,25 @@
 
             box-shadow:
                 0 10px 30px
-                rgba(0,0,0,0.2);
+                rgba(
+                    0,
+                    0,
+                    0,
+                    0.2
+                );
         }
 
+
         .hair {
+
             position: absolute;
 
             width: 205px;
+
             height: 220px;
 
             left: 28px;
+
             top: 5px;
 
             background: #241b27;
@@ -160,15 +215,19 @@
             z-index: 2;
         }
 
+
         .hair::after {
+
             content: "";
 
             position: absolute;
 
             width: 35px;
+
             height: 145px;
 
             right: -4px;
+
             top: 55px;
 
             background: #241b27;
@@ -176,10 +235,13 @@
             border-radius: 50%;
         }
 
+
         .eye {
+
             position: absolute;
 
             width: 25px;
+
             height: 25px;
 
             top: 85px;
@@ -194,15 +256,19 @@
                 transform 0.12s ease;
         }
 
+
         .eye::after {
+
             content: "";
 
             position: absolute;
 
             width: 9px;
+
             height: 9px;
 
             left: 8px;
+
             top: 8px;
 
             background: #222;
@@ -210,18 +276,25 @@
             border-radius: 50%;
         }
 
+
         .eye.left {
+
             left: 82px;
         }
 
+
         .eye.right {
+
             right: 35px;
         }
 
+
         .brow {
+
             position: absolute;
 
             width: 40px;
+
             height: 6px;
 
             top: 72px;
@@ -233,23 +306,35 @@
             z-index: 6;
         }
 
+
         .brow.left {
+
             left: 72px;
-            transform: rotate(-5deg);
+
+            transform:
+                rotate(-5deg);
         }
+
 
         .brow.right {
+
             right: 30px;
-            transform: rotate(5deg);
+
+            transform:
+                rotate(5deg);
         }
 
+
         .nose {
+
             position: absolute;
 
             left: 123px;
+
             top: 105px;
 
             width: 5px;
+
             height: 50px;
 
             background: #e5a69b;
@@ -259,19 +344,24 @@
             z-index: 5;
         }
 
+
         .mouth {
+
             position: absolute;
 
             left: 93px;
+
             top: 165px;
 
             width: 65px;
+
             height: 18px;
 
             border-bottom:
                 4px solid #a54e62;
 
-            border-radius: 0 0 50% 50%;
+            border-radius:
+                0 0 50% 50%;
 
             z-index: 6;
 
@@ -279,13 +369,17 @@
                 all 0.2s ease;
         }
 
+
         .neck {
+
             position: absolute;
 
             width: 70px;
+
             height: 75px;
 
             left: 95px;
+
             top: 190px;
 
             background: #ffd0c5;
@@ -293,13 +387,17 @@
             z-index: 1;
         }
 
+
         .body {
+
             position: absolute;
 
             width: 220px;
+
             height: 145px;
 
             left: 20px;
+
             top: 230px;
 
             background:
@@ -315,29 +413,48 @@
             z-index: 1;
         }
 
+
         /* =========================
            EXPRESSIONS
         ========================= */
 
         .character.listening {
-            transform: scale(1.02);
+
+            transform:
+                scale(1.02);
         }
 
-        .character.thinking .brow.left {
-            transform: rotate(-15deg);
+
+        .character.thinking
+        .brow.left {
+
+            transform:
+                rotate(-15deg);
         }
 
-        .character.thinking .brow.right {
-            transform: rotate(15deg);
+
+        .character.thinking
+        .brow.right {
+
+            transform:
+                rotate(15deg);
         }
 
-        .character.happy .mouth {
+
+        .character.happy
+        .mouth {
+
             height: 30px;
+
             border-bottom-width: 5px;
         }
 
-        .character.surprised .mouth {
+
+        .character.surprised
+        .mouth {
+
             width: 28px;
+
             height: 32px;
 
             left: 112px;
@@ -348,41 +465,58 @@
             border-radius: 50%;
         }
 
-        .character.talking .mouth {
+
+        .character.talking
+        .mouth {
+
             animation:
-                talk 0.22s infinite alternate;
+                talk
+                0.22s
+                infinite
+                alternate;
         }
+
 
         @keyframes talk {
 
             from {
+
                 height: 12px;
             }
 
             to {
+
                 height: 28px;
             }
         }
 
+
         /* =========================
-           RIGHT CHAT
+           CHAT
         ========================= */
 
         .chat-area {
+
             display: flex;
+
             flex-direction: column;
 
             padding: 30px;
         }
 
+
         .chat-title {
+
             font-size: 28px;
+
             font-weight: bold;
 
             margin-bottom: 5px;
         }
 
+
         .chat-subtitle {
+
             color: #aeb8e8;
 
             font-size: 14px;
@@ -390,7 +524,9 @@
             margin-bottom: 20px;
         }
 
+
         .chat {
+
             flex: 1;
 
             overflow-y: auto;
@@ -398,15 +534,19 @@
             padding: 10px;
 
             display: flex;
+
             flex-direction: column;
 
             gap: 12px;
         }
 
+
         .msg {
+
             max-width: 85%;
 
-            padding: 13px 17px;
+            padding:
+                13px 17px;
 
             border-radius: 16px;
 
@@ -417,7 +557,9 @@
             font-size: 15px;
         }
 
+
         .msg.user {
+
             align-self: flex-end;
 
             background:
@@ -427,19 +569,25 @@
                     #2441b5
                 );
 
-            border-bottom-right-radius: 5px;
+            border-bottom-right-radius:
+                5px;
         }
 
+
         .msg.mentor {
+
             align-self: flex-start;
 
             background:
                 #20295b;
 
-            border-bottom-left-radius: 5px;
+            border-bottom-left-radius:
+                5px;
         }
 
+
         .input-area {
+
             display: flex;
 
             gap: 10px;
@@ -447,7 +595,9 @@
             margin-top: 15px;
         }
 
+
         #input {
+
             flex: 1;
 
             min-width: 0;
@@ -458,7 +608,12 @@
 
             border:
                 1px solid
-                rgba(255,255,255,0.15);
+                rgba(
+                    255,
+                    255,
+                    255,
+                    0.15
+                );
 
             outline: none;
 
@@ -469,11 +624,15 @@
             font-size: 15px;
         }
 
+
         #input::placeholder {
+
             color: #8993c4;
         }
 
+
         button {
+
             border: none;
 
             border-radius: 13px;
@@ -490,13 +649,17 @@
             color: #08121e;
         }
 
+
         button:disabled {
+
             opacity: 0.5;
 
             cursor: not-allowed;
         }
 
+
         #mic {
+
             width: 55px;
 
             padding: 0;
@@ -504,7 +667,9 @@
             font-size: 20px;
         }
 
+
         .note {
+
             text-align: center;
 
             color: #737da9;
@@ -514,6 +679,7 @@
             margin-top: 10px;
         }
 
+
         /* =========================
            MOBILE
         ========================= */
@@ -521,28 +687,38 @@
         @media (max-width: 800px) {
 
             .mentor-box {
-                grid-template-columns: 1fr;
+
+                grid-template-columns:
+                    1fr;
             }
 
+
             .avatar-area {
+
                 min-height: 430px;
             }
 
+
             .chat-area {
+
                 min-height: 550px;
             }
 
         }
 
     </style>
+
 </head>
 
 
 <body>
 
+
 <div class="main">
 
+
     <div class="mentor-box">
+
 
         <!-- =========================
              AVATAR
@@ -550,9 +726,13 @@
 
         <section class="avatar-area">
 
+
             <div class="avatar-title">
+
                 मेरा AI Study Mentor
+
             </div>
+
 
             <div
                 id="character"
@@ -561,13 +741,18 @@
 
                 <div class="hair"></div>
 
+
                 <div class="head">
 
                     <div class="brow left"></div>
+
                     <div class="brow right"></div>
 
+
                     <div class="eye left"></div>
+
                     <div class="eye right"></div>
+
 
                     <div class="nose"></div>
 
@@ -575,18 +760,23 @@
 
                 </div>
 
+
                 <div class="neck"></div>
 
                 <div class="body"></div>
 
             </div>
 
+
             <div
                 id="status"
                 class="status"
             >
-                👋 नमस्ते! मैं आपका AI Mentor हूँ।
+
+                👋 मैं आपकी मदद के लिए तैयार हूँ।
+
             </div>
+
 
         </section>
 
@@ -597,13 +787,20 @@
 
         <section class="chat-area">
 
+
             <div class="chat-title">
+
                 AI Mentor
+
             </div>
 
+
             <div class="chat-subtitle">
+
                 आप मुझसे किसी भी विषय के बारे में पूछ सकते हैं।
+
             </div>
+
 
             <div
                 id="chat"
@@ -611,13 +808,19 @@
             >
 
                 <div class="msg mentor">
-                    नमस्ते! मैं आपका AI Mentor हूँ। आप UPSC, UPPCS, History, Geography, Polity या किसी भी विषय के बारे में सवाल पूछ सकते हैं।
+
+                    नमस्ते! मैं आपका AI Mentor हूँ।
+                    आप UPSC, UPPCS, History, Geography,
+                    Polity या किसी भी विषय के बारे में
+                    सवाल पूछ सकते हैं।
+
                 </div>
 
             </div>
 
 
             <div class="input-area">
+
 
                 <input
                     id="input"
@@ -626,505 +829,54 @@
                     autocomplete="off"
                 >
 
+
                 <button
                     id="send"
                     type="button"
                 >
+
                     Send
+
                 </button>
+
 
                 <button
                     id="mic"
                     type="button"
                     title="Voice Question"
                 >
+
                     🎤
+
                 </button>
 
+
             </div>
 
+
             <div class="note">
+
                 आपका सवाल सुरक्षित रूप से AI Mentor server को भेजा जाएगा।
+
             </div>
+
 
         </section>
 
+
     </div>
+
 
 </div>
 
 
-<script>
+<!-- ==========================================
+     ONLY ONE JAVASCRIPT FILE
+     ========================================== -->
 
-    // ==========================================
-    // AI MENTOR FRONTEND
-    // ==========================================
+<script src="app.js"></script>
 
-    const character =
-        document.getElementById("character");
-
-    const statusEl =
-        document.getElementById("status");
-
-    const chat =
-        document.getElementById("chat");
-
-    const input =
-        document.getElementById("input");
-
-    const sendBtn =
-        document.getElementById("send");
-
-    const micBtn =
-        document.getElementById("mic");
-
-
-    // Conversation memory
-    const history = [];
-
-
-    // ==========================================
-    // EXPRESSION
-    // ==========================================
-
-    function setExpression(type, status) {
-
-        character.className =
-            "character " + type;
-
-        statusEl.textContent =
-            status;
-    }
-
-
-    // ==========================================
-    // CHAT MESSAGE
-    // ==========================================
-
-    function addMessage(text, who) {
-
-        const message =
-            document.createElement("div");
-
-        message.className =
-            "msg " + who;
-
-        message.textContent =
-            text;
-
-        chat.appendChild(message);
-
-        chat.scrollTop =
-            chat.scrollHeight;
-
-        return message;
-    }
-
-
-    // ==========================================
-    // VOICE
-    // ==========================================
-
-    function speak(text) {
-
-        if (!("speechSynthesis" in window)) {
-
-            setExpression(
-                "normal",
-                "😊 Mentor तैयार है"
-            );
-
-            return;
-        }
-
-        speechSynthesis.cancel();
-
-        const voice =
-            new SpeechSynthesisUtterance(text);
-
-        voice.lang =
-            "hi-IN";
-
-        voice.rate =
-            0.95;
-
-        voice.pitch =
-            1;
-
-
-        voice.onstart = function() {
-
-            setExpression(
-                "talking",
-                "🗣️ Mentor बोल रहा है..."
-            );
-
-        };
-
-
-        voice.onend = function() {
-
-            setExpression(
-                "happy",
-                "😊 Mentor तैयार है"
-            );
-
-        };
-
-
-        voice.onerror = function() {
-
-            setExpression(
-                "normal",
-                "😊 Mentor तैयार है"
-            );
-
-        };
-
-
-        speechSynthesis.speak(voice);
-    }
-
-
-    // ==========================================
-    // SEND QUESTION TO GEMINI
-    // ==========================================
-
-    async function sendQuestion() {
-
-        const question =
-            input.value.trim();
-
-
-        if (!question) {
-            return;
-        }
-
-
-        // Show user's question
-        addMessage(
-            question,
-            "user"
-        );
-
-
-        // Clear input
-        input.value = "";
-
-
-        // Disable controls
-        sendBtn.disabled = true;
-        micBtn.disabled = true;
-
-
-        // Thinking
-        setExpression(
-            "thinking",
-            "🤔 Mentor सोच रहा है..."
-        );
-
-
-        try {
-
-            const response =
-                await fetch(
-                    "/api/chat",
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-
-                            message:
-                                question,
-
-                            history:
-                                history
-
-                        })
-                    }
-                );
-
-
-            const data =
-                await response.json();
-
-
-            if (
-                !response.ok ||
-                !data.success
-            ) {
-
-                throw new Error(
-                    data.error ||
-                    "AI response failed"
-                );
-
-            }
-
-
-            const reply =
-                data.reply;
-
-
-            // Show Gemini answer
-            addMessage(
-                reply,
-                "mentor"
-            );
-
-
-            // Save history
-            history.push({
-
-                role: "user",
-
-                text: question
-
-            });
-
-
-            history.push({
-
-                role: "model",
-
-                text: reply
-
-            });
-
-
-            // Speak
-            speak(reply);
-
-
-        } catch (error) {
-
-            console.error(
-                "AI Mentor Error:",
-                error
-            );
-
-
-            addMessage(
-                "माफ़ कीजिए, अभी AI Mentor से connection नहीं हो पाया। कृपया थोड़ी देर बाद फिर कोशिश करें।",
-                "mentor"
-            );
-
-
-            setExpression(
-                "surprised",
-                "⚠️ Connection में समस्या"
-            );
-
-        }
-
-
-        sendBtn.disabled = false;
-        micBtn.disabled = false;
-    }
-
-
-    // ==========================================
-    // SEND BUTTON
-    // ==========================================
-
-    sendBtn.addEventListener(
-        "click",
-        sendQuestion
-    );
-
-
-    // ==========================================
-    // ENTER KEY
-    // ==========================================
-
-    input.addEventListener(
-        "keydown",
-        function(event) {
-
-            if (
-                event.key === "Enter"
-            ) {
-
-                event.preventDefault();
-
-                sendQuestion();
-
-            }
-
-        }
-    );
-
-
-    // ==========================================
-    // MICROPHONE
-    // ==========================================
-
-    micBtn.addEventListener(
-        "click",
-        function() {
-
-            const SpeechRecognition =
-                window.SpeechRecognition ||
-                window.webkitSpeechRecognition;
-
-
-            if (!SpeechRecognition) {
-
-                setExpression(
-                    "normal",
-                    "🎤 इस browser में voice recognition उपलब्ध नहीं है।"
-                );
-
-                return;
-            }
-
-
-            const recognition =
-                new SpeechRecognition();
-
-
-            recognition.lang =
-                "hi-IN";
-
-            recognition.interimResults =
-                false;
-
-            recognition.continuous =
-                false;
-
-
-            setExpression(
-                "listening",
-                "👂 आपकी बात सुन रहा हूँ..."
-            );
-
-
-            recognition.start();
-
-
-            recognition.onresult =
-                function(event) {
-
-                    const text =
-                        event
-                        .results[0][0]
-                        .transcript;
-
-
-                    input.value =
-                        text;
-
-
-                    sendQuestion();
-
-                };
-
-
-            recognition.onerror =
-                function() {
-
-                    setExpression(
-                        "normal",
-                        "🎤 Microphone में समस्या हुई।"
-                    );
-
-                };
-
-
-            recognition.onend =
-                function() {
-
-                    if (
-                        !input.value.trim()
-                    ) {
-
-                        setExpression(
-                            "normal",
-                            "😊 Mentor तैयार है"
-                        );
-
-                    }
-
-                };
-
-        }
-    );
-
-
-    // ==========================================
-    // NATURAL BLINKING
-    // ==========================================
-
-    function blink() {
-
-        const eyes =
-            document.querySelectorAll(
-                ".eye"
-            );
-
-
-        eyes.forEach(
-            function(eye) {
-
-                eye.style.transform =
-                    "scaleY(0.08)";
-
-            }
-        );
-
-
-        setTimeout(
-            function() {
-
-                eyes.forEach(
-                    function(eye) {
-
-                        eye.style.transform =
-                            "";
-
-                    }
-                );
-
-            },
-            120
-        );
-
-    }
-
-
-    setInterval(
-        function() {
-
-            if (
-                !character.classList.contains(
-                    "talking"
-                )
-            ) {
-
-                blink();
-
-            }
-
-        },
-        3500
-    );
-
-
-    // ==========================================
-    // INITIAL STATE
-    // ==========================================
-
-    setExpression(
-        "normal",
-        "👋 नमस्ते! मैं आपका AI Mentor हूँ।"
-    );
-
-</script>
 
 </body>
+
 </html>
