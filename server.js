@@ -1,4 +1,4 @@
-import express from "express";
+https://github.com/alwaysankit64/ai-mentor-avatar/settingsimport express from "express";
 import cors from "cors";
 import "dotenv/config";
 import path from "path";
@@ -109,7 +109,7 @@ async function askGemini(contents) {
                     config: {
                         systemInstruction: mentorInstruction,
                         temperature: 0.7,
-                        maxOutputTokens: 1200
+                        maxOutputTokens: 400
                     }
                 });
 
